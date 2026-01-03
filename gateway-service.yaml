@@ -14,9 +14,13 @@ spring:
   cloud:
     gateway:
       globalcors:
+        # Importante: Esta propiedad ayuda a que peticiones OPTIONS pasen siempre
+        add-to-simple-url-handler-mapping: true 
         cors-configurations:
           '[/**]':
-            allowedOrigins: "*"   # En producción poner la URL del Frontend
+            allowedOrigins: 
+              - "http://34.29.108.227"
+              - "http://localhost:5173"
             allowedMethods:
               - GET
               - POST
@@ -25,25 +29,22 @@ spring:
               - OPTIONS
             allowedHeaders: "*"
             allowCredentials: true
+            maxAge: 3600
 
       discovery:
         locator:
-          enabled: true # Esto permite encontrar servicios automáticamente, pero es mejor definir rutas manuales abajo
+          enabled: true
           lower-case-service-id: true
 
       routes:
-        # RUTA AL BACKEND
-        - id: toolrent-backend  # ID descriptivo
-          # "lb://" significa Load Balancer (usa Eureka para buscar la IP)
-          # "toolrent-backend" DEBE ser igual al spring.application.name de tu microservicio backend
+        - id: toolrent-backend
           uri: lb://toolrent-backend
           predicates:
-            # Cualquier petición que empiece con /api se manda al backend
             - Path=/api/**
-            
+
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://keycloak:8080/realms/ToolRent
+          issuer-uri: http://34.42.204.49/realms/ToolRent
           jwk-set-uri: http://keycloak:8080/realms/ToolRent/protocol/openid-connect/certs
