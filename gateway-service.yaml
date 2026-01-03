@@ -1,6 +1,6 @@
 server:
   port: 8080
-  
+
 eureka:
   client:
     fetch-registry: true
@@ -9,15 +9,41 @@ eureka:
       default-zone: http://eureka-service:8999/eureka
   instance:
     prefer-ip-address: true
-    
+
 spring:
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"   # En producción poner la URL del Frontend
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+
       discovery:
         locator:
-          enabled: true
+          enabled: true # Esto permite encontrar servicios automáticamente, pero es mejor definir rutas manuales abajo
+          lower-case-service-id: true
+
       routes:
-        - id: backend-service
+        # RUTA AL BACKEND
+        - id: toolrent-backend  # ID descriptivo
+          # "lb://" significa Load Balancer (usa Eureka para buscar la IP)
+          # "toolrent-backend" DEBE ser igual al spring.application.name de tu microservicio backend
           uri: lb://toolrent-backend
           predicates:
+            # Cualquier petición que empiece con /api se manda al backend
             - Path=/api/**
+            
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8080/realms/ToolRent
+          jwk-set-uri: http://keycloak:8080/realms/ToolRent/protocol/openid-connect/certs
