@@ -26,7 +26,7 @@ spring:
       hibernate:
         format_sql: true
 
-  # --- SEGURIDAD (Spring Security 6 / Boot 3) ---
+  # --- SEGURIDAD ---
   security:
     oauth2:
       resourceserver:
@@ -43,6 +43,14 @@ spring:
           keycloak:
             issuer-uri: http://keycloak:8080/realms/ToolRent
 
+  # --- CORS (Movido aquí adentro para evitar duplicar 'spring') ---
+  web:
+    cors:
+      allowed-origins: "*"
+      allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+      allowed-headers: "*"
+      allow-credentials: true
+
 # --- EUREKA ---
 eureka:
   instance:
@@ -51,34 +59,22 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      # Apuntando al nombre correcto del servicio k8s y puerto 8999
       defaultZone: http://eureka-service:8999/eureka/
 
-# --- TUS VARIABLES PERSONALIZADAS (Legacy) ---
+# --- CONFIGURACIÓN PERSONALIZADA ---
 keycloak:
   realm: ToolRent
   auth-server-url: http://keycloak:8080
   resource: ToolRent-backend
   credentials:
     secret: WXo5KsY1eqSHj9rHBqfS1E3R44FNd5lW
-  # Esta variable la usabas en tu properties original para resolver placeholders
   client-secret: WXo5KsY1eqSHj9rHBqfS1E3R44FNd5lW
 
-# --- JWT CONVERTER (Roles) ---
 jwt:
   auth:
     converter:
       resource-id: ToolRent-backend
       principle-attribute: preferred_username
-
-# --- CORS ---
-spring:
-  web:
-    cors:
-      allowed-origins: "*"
-      allowed-methods: GET,POST,PUT,DELETE,OPTIONS
-      allowed-headers: "*"
-      allow-credentials: true
 
 # --- ACTUATOR ---
 management:
