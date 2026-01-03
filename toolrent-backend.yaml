@@ -5,9 +5,8 @@ spring:
   application:
     name: toolrent-backend
   
-  # --- BASE DE DATOS ---
   datasource:
-    url: jdbc:postgresql://postgres:5432/toolrent
+    url: jdbc:postgresql://postgres:5432/ToolRent
     username: postgres
     password: SQLHolaYo64
     driver-class-name: org.postgresql.Driver
@@ -16,7 +15,6 @@ spring:
       minimum-idle: 5
       connection-timeout: 20000
   
-  # --- JPA / HIBERNATE ---
   jpa:
     hibernate:
       ddl-auto: update
@@ -26,49 +24,24 @@ spring:
       hibernate:
         format_sql: true
 
-  # --- SEGURIDAD ---
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://keycloak:8080/realms/ToolRent
           jwk-set-uri: http://keycloak:8080/realms/ToolRent/protocol/openid-connect/certs
-      client:
-        registration:
-          keycloak:
-            client-id: toolrent-backend
-            client-secret: WXo5KsY1eqSHj9rHBqfS1E3R44FNd5lW
-            authorization-grant-type: client_credentials
-        provider:
-          keycloak:
-            issuer-uri: http://keycloak:8080/realms/ToolRent
-
-  # --- CORS (Movido aquí adentro para evitar duplicar 'spring') ---
-  web:
-    cors:
-      allowed-origins: "*"
-      allowed-methods: GET,POST,PUT,DELETE,OPTIONS
-      allowed-headers: "*"
-      allow-credentials: true
 
 # --- EUREKA ---
 eureka:
   instance:
     prefer-ip-address: true
   client:
-    register-with-eureka: true
-    fetch-registry: true
     service-url:
       defaultZone: http://eureka-service:8999/eureka/
 
-# --- CONFIGURACIÓN PERSONALIZADA ---
+# --- CONFIGURACIÓN PARA TU SECURITYCONFIG.JAVA ---
 keycloak:
-  realm: ToolRent
-  auth-server-url: http://keycloak:8080
   resource: ToolRent-backend
-  credentials:
-    secret: WXo5KsY1eqSHj9rHBqfS1E3R44FNd5lW
-  client-secret: WXo5KsY1eqSHj9rHBqfS1E3R44FNd5lW
 
 jwt:
   auth:
@@ -82,9 +55,3 @@ management:
     web:
       exposure:
         include: health,info
-  endpoint:
-    health:
-      show-details: always
-  health:
-    db:
-      enabled: true

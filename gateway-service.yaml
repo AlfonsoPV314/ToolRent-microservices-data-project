@@ -19,8 +19,8 @@ spring:
         cors-configurations:
           '[/**]':
             allowedOrigins: 
-              - "http://34.29.108.227"
-              - "http://localhost:5173"
+              - "http://34.72.40.154"
+              - "http://localhost:7070"
             allowedMethods:
               - GET
               - POST
@@ -46,5 +46,4 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://34.42.204.49/realms/ToolRent
-          jwk-set-uri: http://keycloak:8080/realms/ToolRent/protocol/openid-connect/certs
+          issuer-uri: http://34.27.203.192/realms/ToolRent
