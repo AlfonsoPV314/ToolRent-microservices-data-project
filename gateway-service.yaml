@@ -42,7 +42,7 @@ spring:
           predicates:
             - Path=/api/**
         - id: toolrent-frontend
-          uri: lb://toolrent-frontend
+          uri: http://toolrent-frontend:7070
           predicates:
             - Path=/
 
