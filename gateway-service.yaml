@@ -42,9 +42,9 @@ spring:
           predicates:
             - Path=/api/**
         - id: toolrent-frontend
-          uri: http://toolrent-frontend:7070
+          uri: http://toolrent-frontend:80
           predicates:
-            - Path=/
+            - Path=/**
 
   security:
     oauth2:
