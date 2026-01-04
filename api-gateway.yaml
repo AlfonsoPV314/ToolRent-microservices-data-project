@@ -45,6 +45,12 @@ spring:
           predicates:
             - Path=/**
           order: 100
+        - id: keycloak-route
+          uri: http://keycloak:8080
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
 
   security:
     oauth2:
