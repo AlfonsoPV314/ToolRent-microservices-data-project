@@ -41,10 +41,20 @@ spring:
           uri: lb://toolrent-backend
           predicates:
             - Path=/api/**
+        -id: toolrent-frontend-static
+          uri: http://toolrent-frontend:80
+          predicates:
+            - Path=/static/**,/assets/**,/index.html,/favicon.ico,/manifest.json,/robots.txt
+        -id: toolrent-frontend-root
+          uri: http://toolrent-frontend:80
+          predicates:
+            - Path=/
+            - Method=GET
         - id: toolrent-frontend
           uri: http://toolrent-frontend:80
           predicates:
             - Path=/**
+          order: 100
 
   security:
     oauth2:
