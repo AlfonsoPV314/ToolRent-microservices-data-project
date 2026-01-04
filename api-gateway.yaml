@@ -36,6 +36,12 @@ spring:
           uri: lb://toolrent-backend
           predicates:
             - Path=/api/**
+        - id: keycloak-route
+          uri: http://keycloak:8080
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
         - id: toolrent-frontend-assets
           uri: http://toolrent-frontend:80
           predicates:
@@ -45,20 +51,14 @@ spring:
           predicates:
             - Path=/**
           order: 100
-        - id: keycloak-route
-          uri: http://keycloak:8080
-          predicates:
-            - Path=/auth/**
-          filters:
-            - StripPrefix=1
 
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://34.27.203.192/realms/ToolRent
+          issuer-uri: http://136.111.61.239/auth/realms/ToolRent
 
-# --- NUEVA SECCIÓN PARA DEBUGGING ---
+# Debugging
 management:
   endpoints:
     web:
@@ -67,5 +67,5 @@ management:
   endpoint:
     gateway:
       enabled: true
-    health:
-      show-details: always
+  health:
+    show-details: always
