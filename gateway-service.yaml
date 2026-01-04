@@ -41,6 +41,10 @@ spring:
           uri: lb://toolrent-backend
           predicates:
             - Path=/api/**
+        - id: toolrent-frontend
+          uri: lb://toolrent-frontend
+          predicates:
+            - Path=/
 
   security:
     oauth2:
