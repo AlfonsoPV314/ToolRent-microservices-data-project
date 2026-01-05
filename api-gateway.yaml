@@ -18,9 +18,7 @@ spring:
         cors-configurations:
           '[/**]':
             allowedOrigins: 
-              - "http://34.72.40.154"   
-              - "http://136.111.61.239" 
-              - "http://localhost:7070"
+              - "*" # Permite todo por ahora para evitar problemas con IPs de Nodos cambiantes
             allowedMethods:
               - GET
               - POST
@@ -28,37 +26,24 @@ spring:
               - DELETE
               - OPTIONS
             allowedHeaders: "*"
-            allowCredentials: true
+            allowCredentials: false # Si usas '*' en origins, credentials debe ser false usualmente, o especifica la IP exacta del nodo
             maxAge: 3600
 
       routes:
+        # SOLO queda la ruta al backend
         - id: toolrent-backend
           uri: lb://toolrent-backend
           predicates:
             - Path=/api/**
-        - id: keycloak-route
-          uri: http://keycloak:8080
-          predicates:
-            - Path=/auth/**
-          filters:                 
-            - PreserveHostHeader
-            - AddRequestHeader=X-Forwarded-Proto, http
-            - AddRequestHeader=X-Forwarded-Port, 80
-        - id: toolrent-frontend-assets
-          uri: http://toolrent-frontend:80
-          predicates:
-            - Path=/assets/**, /static/**, /favicon.ico, /index.html
-        - id: toolrent-frontend-main
-          uri: http://toolrent-frontend:80
-          predicates:
-            - Path=/**
-          order: 100
 
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://136.111.61.239/auth/realms/ToolRent
+          # IMPORTANTE: Esto debe coincidir con KC_HOSTNAME_URL de Keycloak.
+          # Si Keycloak está en el nodo X puerto 30001, el token tendrá ese issuer.
+          # El Gateway debe ser capaz de alcanzar esa URL para descargar las claves públicas.
+          issuer-uri: http://<TU_IP_DE_NODO_GKE>:30001/realms/ToolRent
 
 # Debugging
 management:

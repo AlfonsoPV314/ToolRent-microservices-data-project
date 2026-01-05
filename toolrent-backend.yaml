@@ -28,8 +28,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://keycloak:8080/realms/ToolRent
-          jwk-set-uri: http://keycloak:8080/realms/ToolRent/protocol/openid-connect/certs
+          issuer-uri: http://35.238.245.65:30001/realms/ToolRent
+          jwk-set-uri: http://35.238.245.65:30001/realms/ToolRent/protocol/openid-connect/certs
 
 # --- EUREKA ---
 eureka:
@@ -39,7 +39,7 @@ eureka:
     service-url:
       defaultZone: http://eureka-service:8999/eureka/
 
-# --- CONFIGURACIÓN PARA TU SECURITYCONFIG.JAVA ---
+# --- CONFIGURACIÓN PARA SECURITYCONFIG.JAVA ---
 keycloak:
   resource: ToolRent-backend
 
