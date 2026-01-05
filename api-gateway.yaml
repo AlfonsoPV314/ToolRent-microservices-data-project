@@ -40,6 +40,10 @@ spring:
           uri: http://keycloak:8080
           predicates:
             - Path=/auth/**
+          filters:                 
+            - PreserveHostHeader
+            - AddRequestHeader=X-Forwarded-Proto, http
+            - AddRequestHeader=X-Forwarded-Port, 80
         - id: toolrent-frontend-assets
           uri: http://toolrent-frontend:80
           predicates:
