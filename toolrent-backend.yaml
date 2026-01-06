@@ -5,6 +5,7 @@ spring:
   application:
     name: toolrent-backend
   
+  # --- BASE DE DATOS ---
   datasource:
     url: jdbc:postgresql://10.12.176.3:5432/toolrent
     username: postgres
@@ -24,12 +25,32 @@ spring:
       hibernate:
         format_sql: true
 
+  # --- SPRING SECURITY OAUTH2 (Estándar) ---
   security:
     oauth2:
       resourceserver:
         jwt:
+          # URL del Realm para validar el token (Issuer)
           issuer-uri: http://35.238.245.65:30001/realms/ToolRent
+          # URL para obtener las llaves públicas y validar la firma
           jwk-set-uri: http://35.238.245.65:30001/realms/ToolRent/protocol/openid-connect/certs
+
+# --- CONFIGURACIÓN CUSTOM PARA TU BACKEND (KeycloakConfig.java) ---
+keycloak:
+  # URL base del servidor (sin /realms/...) usada por KeycloakBuilder
+  auth-server-url: http://35.238.245.65:30001
+  realm: ToolRent
+  resource: ToolRent-backend
+  credentials:
+    # Este secreto viene de tu archivo ToolRent_realm_create.json
+    secret: ghwejEok972SJKnkpnbOsjdn
+
+# --- CONFIGURACIÓN PARA EL CONVERTER DE JWT ---
+jwt:
+  auth:
+    converter:
+      resource-id: ToolRent-backend
+      principle-attribute: preferred_username
 
 # --- EUREKA ---
 eureka:
@@ -38,16 +59,6 @@ eureka:
   client:
     service-url:
       defaultZone: http://eureka-service:8999/eureka/
-
-# --- CONFIGURACIÓN PARA SECURITYCONFIG.JAVA ---
-keycloak:
-  resource: ToolRent-backend
-
-jwt:
-  auth:
-    converter:
-      resource-id: ToolRent-backend
-      principle-attribute: preferred_username
 
 # --- ACTUATOR ---
 management:

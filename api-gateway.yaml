@@ -43,7 +43,7 @@ spring:
           # IMPORTANTE: Esto debe coincidir con KC_HOSTNAME_URL de Keycloak.
           # Si Keycloak está en el nodo X puerto 30001, el token tendrá ese issuer.
           # El Gateway debe ser capaz de alcanzar esa URL para descargar las claves públicas.
-          issuer-uri: http://<TU_IP_DE_NODO_GKE>:30001/realms/ToolRent
+          issuer-uri: http://35.238.245.65:30001/realms/ToolRent
 
 # Debugging
 management:
