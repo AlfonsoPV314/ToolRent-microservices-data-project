@@ -18,7 +18,7 @@ spring:
         cors-configurations:
           '[/**]':
             allowedOrigins: 
-              - "*" # Permite todo por ahora para evitar problemas con IPs de Nodos cambiantes
+              - "http://35.238.245.65:30002"
             allowedMethods:
               - GET
               - POST
@@ -26,11 +26,13 @@ spring:
               - DELETE
               - OPTIONS
             allowedHeaders: "*"
-            allowCredentials: false # Si usas '*' en origins, credentials debe ser false usualmente, o especifica la IP exacta del nodo
+            allowCredentials: true
             maxAge: 3600
+            
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
 
       routes:
-        # SOLO queda la ruta al backend
         - id: toolrent-backend
           uri: lb://toolrent-backend
           predicates:
@@ -40,9 +42,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          # IMPORTANTE: Esto debe coincidir con KC_HOSTNAME_URL de Keycloak.
-          # Si Keycloak está en el nodo X puerto 30001, el token tendrá ese issuer.
-          # El Gateway debe ser capaz de alcanzar esa URL para descargar las claves públicas.
+          # Esto debe coincidir con KC_HOSTNAME_URL de Keycloak.
           issuer-uri: http://35.238.245.65:30001/realms/ToolRent
 
 # Debugging
