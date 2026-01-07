@@ -52,6 +52,11 @@ spring:
           uri: lb://tool-service
           predicates:
             - Path=/api/tools/**
+            
+        - id: tool-category-service
+          uri: lb://tool-service
+          predicates:
+            - Path=/api/tool-categories/**
 
         - id: kardex-service
           uri: lb://kardex-service
