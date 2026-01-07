@@ -1,0 +1,64 @@
+server:
+  port: 6060
+
+spring:
+  application:
+    name: system-rates-service
+  
+  # --- BASE DE DATOS ---
+  datasource:
+    url: jdbc:postgresql://10.12.176.3:5432/toolrent
+    username: postgres
+    password: SQLHolaYo64
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 20000
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+
+  # --- SPRING SECURITY OAUTH2 (Estándar) ---
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://35.238.245.65:30001/realms/ToolRent
+          jwk-set-uri: http://35.238.245.65:30001/realms/ToolRent/protocol/openid-connect/certs
+
+# --- CONFIGURACIÓN CUSTOM PARA TU BACKEND (KeycloakConfig.java) ---
+keycloak:
+  auth-server-url: http://35.238.245.65:30001
+  realm: ToolRent
+  resource: ToolRent-backend
+  credentials:
+    secret: ghwejEok972SJKnkpnbOsjdn
+
+# --- CONFIGURACIÓN PARA EL CONVERTER DE JWT ---
+jwt:
+  auth:
+    converter:
+      resource-id: system-rates-service
+      principle-attribute: preferred_username
+
+# --- EUREKA ---
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://eureka-service:8999/eureka/
+
+# --- ACTUATOR ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
