@@ -33,10 +33,10 @@ spring:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
 
       routes:
-        - id: toolrent-backend
-          uri: lb://toolrent-backend
-          predicates:
-            - Path=/api/**
+        #- id: toolrent-backend
+        #  uri: lb://toolrent-backend
+        #  predicates:
+        #    - Path=/api/**
             
         - id: client-service
           uri: lb://client-service    
